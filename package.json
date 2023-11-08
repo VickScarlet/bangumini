@@ -1,0 +1,22 @@
+{
+  "name": "bangumini",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "napi build --platform --release --cargo-cwd src/api/bangumi src/api/bangumi",
+    "start": "ts-node src --project tsconfig.json"
+  },
+  "keywords": [],
+  "author": "Vick Scarlet(vick@syaro.io)",
+  "license": "MIT",
+  "devDependencies": {
+    "@napi-rs/cli": "^2.16.5",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "mongodb": "^6.2.0"
+  }
+}

@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "napi build --platform --release --cargo-cwd src/api/bangumi src/api/bangumi",
-    "start": "ts-node src --project tsconfig.json"
+    "start": "ts-node src --project tsconfig.json",
+    "tests": "mocha --require ts-node/register test/**/*.ts"
   },
   "keywords": [],
   "author": "Vick Scarlet(vick@syaro.io)",
@@ -14,6 +15,8 @@
     "@napi-rs/cli": "^2.16.5",
     "@types/koa": "^2.13.11",
     "@types/koa__router": "^12.0.4",
+    "@types/mocha": "^10.0.4",
+    "mocha": "^10.2.0",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.2.2"

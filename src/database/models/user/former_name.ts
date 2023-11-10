@@ -16,6 +16,7 @@ export interface FormerName {
     tml: number
     before: string
     after: string
+    time: string
 }
 
 export interface FormerNameWithUpdate extends FormerName {

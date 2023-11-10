@@ -11,7 +11,7 @@ Bangumi mini API
 * URL `/user/:user/formername `<br/>
 * Response
     ```typescript
-    [{
+    interface Response [{
         update: string     // 抓取时间 [UTC]
         tml: number        // 时间线ID
         time: string       // 改名时间 [YYYY-M-D]

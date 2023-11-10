@@ -1,10 +1,20 @@
+mod config;
 pub mod user;
 
 async fn _fetch(url: String) -> Result<String, reqwest::Error> {
-    let resp = reqwest::get(url).await?;
-    resp.text().await
+    reqwest::Client::builder()
+        .cookie_store(true)
+        .build()?
+        .get(&url)
+        .header(reqwest::header::USER_AGENT, config::USER_AGENT)
+        .header(reqwest::header::COOKIE, config::COOKIE)
+        .send()
+        .await?
+        .text()
+        .await
 }
 
+#[napi_derive::napi]
 pub async fn fetch(sub: String) -> napi::Result<String> {
     let url = format!("https://bgm.tv/{sub}");
     match _fetch(url).await {

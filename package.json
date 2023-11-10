@@ -1,7 +1,7 @@
 {
   "name": "bangumini",
   "version": "1.0.0",
-  "description": "",
+  "description": "bangumi mini api",
   "main": "src/index.ts",
   "scripts": {
     "build:step1": "ts-node tools/build --project tsconfig.json",

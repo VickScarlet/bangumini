@@ -5,14 +5,20 @@ import { task } from '@/tasks'
 const fresh = async (id: string, tml?: number) =>
     task(`user/formerName/${id}`, async () => {
         const fetchDatas = await userFormerName(id, tml)
-        if (fetchDatas && fetchDatas.length !== 0) await db.put(id, fetchDatas)
-        return fetchDatas
+        if (!fetchDatas || fetchDatas.length === 0) return null
+        await db.put(id, fetchDatas)
+        return db.get(id)
     })
 
-export default async function (id: string) {
+export default async function* (id: string) {
     const data = await db.get(id)
-    if (!data) return { data: null, task: fresh(id) }
-    if (Date.now() - data.update.getTime() > 86400000)
-        return { data, task: fresh(id, data.data[0]?.tml) }
-    return { data, task: null }
+    if (!data) {
+        yield { type: 'task' }
+        yield { type: 'done', ...(await fresh(id)) }
+    } else if (Date.now() - data.update.getTime() > 86400000) {
+        yield { type: 'task', ...data }
+        yield { type: 'done', ...(await fresh(id, data.data[0]?.tml)) }
+    } else {
+        yield { type: 'done', ...data }
+    }
 }

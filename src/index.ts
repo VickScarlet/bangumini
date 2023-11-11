@@ -1,6 +1,7 @@
 import yaml from 'js-yaml'
-import { readFile, writeFile } from 'fs/promises'
+import { readFile } from 'fs/promises'
 import Koa from 'koa'
+import cors from '@koa/cors'
 import router from '@/router'
 import db from '@/database'
 
@@ -13,6 +14,7 @@ async function main(cPath: string) {
     const config = yaml.load(content) as Config
     await db.init(config.database)
     new Koa()
+        .use(cors())
         .use(router.routes())
         .listen({ host: '0.0.0.0', port: 3000 }, () => {
             console.log('Server listening on port 3000')

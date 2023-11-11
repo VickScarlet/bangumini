@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@koa/cors':
+    specifier: ^4.0.0
+    version: 4.0.0
   '@koa/router':
     specifier: ^12.0.1
     version: 12.0.1
@@ -31,12 +34,18 @@ devDependencies:
   '@types/koa':
     specifier: ^2.13.11
     version: 2.13.11
+  '@types/koa__cors':
+    specifier: ^4.0.3
+    version: 4.0.3
   '@types/koa__router':
     specifier: ^12.0.4
     version: 12.0.4
   '@types/mocha':
     specifier: ^10.0.4
     version: 10.0.4
+  '@types/sharedworker':
+    specifier: ^0.0.105
+    version: 0.0.105
   chai:
     specifier: 5.0.0-alpha.1
     version: 5.0.0-alpha.1
@@ -77,6 +86,13 @@ packages:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
+
+  /@koa/cors@4.0.0:
+    resolution: {integrity: sha512-Y4RrbvGTlAaa04DBoPBWJqDR5gPj32OOz827ULXfgB1F7piD1MB/zwn8JR2LAnvdILhxUbXbkXGWuNVsFuVFCQ==}
+    engines: {node: '>= 14.0.0'}
+    dependencies:
+      vary: 1.1.2
+    dev: false
 
   /@koa/router@12.0.1:
     resolution: {integrity: sha512-ribfPYfHb+Uw3b27Eiw6NPqjhIhTpVFzEWLwyc/1Xp+DCdwRRyIlAUODX+9bPARF6aQtUu1+/PHzdNvRzcs/+Q==}
@@ -208,6 +224,12 @@ packages:
       '@types/node': 20.8.10
     dev: true
 
+  /@types/koa__cors@4.0.3:
+    resolution: {integrity: sha512-zj+1sQO/6GGRGINRXlMmoiFwHibKVcjNGdh+p2SpqHDMLyvC+ce0LMHX6UBi1rdpnPZ/+osUwWdGKF945ffrzA==}
+    dependencies:
+      '@types/koa': 2.13.11
+    dev: true
+
   /@types/koa__router@12.0.4:
     resolution: {integrity: sha512-Y7YBbSmfXZpa/m5UGGzb7XadJIRBRnwNY9cdAojZGp65Cpe5MAP3mOZE7e3bImt8dfKS4UFcR16SLH8L/z7PBw==}
     dependencies:
@@ -252,6 +274,10 @@ packages:
       '@types/http-errors': 2.0.4
       '@types/mime': 3.0.4
       '@types/node': 20.8.10
+    dev: true
+
+  /@types/sharedworker@0.0.105:
+    resolution: {integrity: sha512-RBjdNmxAVfLKNGRqbWHj0AcyB9Ui2OoIYEDHBtN3+suad6sCm/hWCPhykTRE+vpIxhxFaW3ckarjk1M1hjR71w==}
     dev: true
 
   /@types/webidl-conversions@7.0.2:

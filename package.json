@@ -20,8 +20,10 @@
     "@types/chai": "^4.3.10",
     "@types/js-yaml": "^4.0.9",
     "@types/koa": "^2.13.11",
+    "@types/koa__cors": "^4.0.3",
     "@types/koa__router": "^12.0.4",
     "@types/mocha": "^10.0.4",
+    "@types/sharedworker": "^0.0.105",
     "chai": "5.0.0-alpha.1",
     "mocha": "^10.2.0",
     "ts-node": "^10.9.1",
@@ -29,6 +31,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@koa/cors": "^4.0.0",
     "@koa/router": "^12.0.1",
     "js-yaml": "^4.1.0",
     "koa": "^2.14.2",

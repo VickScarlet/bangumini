@@ -5,26 +5,25 @@ export const hasTask = (id: string) => {
     return tasks.has(id)
 }
 
-export const addTask = <T>(id: string, task: Promise<T>) => {
-    if (tasks.has(id)) return
-    tasks.set(id, new Set<Callback>())
-    task.then(data => {
-        const callbacks = tasks.get(id)
-        if (!callbacks) return
-        for (const callback of callbacks)
-            try {
-                callback(data)
-            } catch (err) {
-                console.error(err)
-            }
-        tasks.delete(id)
-    })
-}
-
-export const addCallback = <T>(id: string, callback: Callback<T>) => {
+export const task = async <T>(id: string, task: () => Promise<T>) => {
     const callbacks = tasks.get(id)
-    if (!callbacks) return
-    callbacks.add(callback as Callback)
+    if (callbacks)
+        return new Promise<T>(resolve => callbacks.add(resolve as Callback))
+
+    tasks.set(id, new Set<Callback>())
+    return task().then(data => {
+        const callbacks = tasks.get(id)
+        if (callbacks) {
+            for (const callback of callbacks)
+                try {
+                    callback(data)
+                } catch (err) {
+                    console.error(err)
+                }
+            tasks.delete(id)
+        }
+        return data
+    })
 }
 
 export const removeCallback = (id: string, callback: Callback) => {

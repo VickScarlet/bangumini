@@ -19,13 +19,13 @@ export interface FormerName {
     time: string
 }
 
-export interface FormerNameWithUpdate extends FormerName {
+export interface FormerNameUpdate {
     update: Date
 }
 
 export const get = async (id: string) => {
-    return coll()
-        .find<FormerNameWithUpdate>(
+    const list = await coll()
+        .find<FormerName>(
             { id },
             {
                 projection: {
@@ -36,10 +36,20 @@ export const get = async (id: string) => {
         )
         .sort({ tml: -1 })
         .toArray()
+
+    if (list.length === 0) return null
+    const { update } = list.pop() as unknown as FormerNameUpdate
+    return { update, data: list }
 }
 
 export const put = async (id: string, formerNames: FormerName[]) => {
-    const update = new Date()
-    const data = formerNames.map(formerName => ({ id, update, ...formerName }))
+    await coll().updateOne(
+        { id, tml: 0 },
+        {
+            $set: { update: new Date() },
+        },
+        { upsert: true }
+    )
+    const data = formerNames.map(formerName => ({ id, ...formerName }))
     return coll().insertMany(data, { ordered: false })
 }

@@ -1,27 +1,18 @@
 import { userFormerName } from '@/api/bangumi'
 import { formerName as db } from '@/database/models/user'
-import { addTask, hasTask } from '@/tasks'
+import { task } from '@/tasks'
 
-const fresh = (id: string, tml?: number) => {
-    const task = `user/formerName/${id}`
-    if (hasTask(task)) return
-    addTask(
-        task,
-        (async () => {
-            const fetchDatas = await userFormerName(id, tml)
-            await db.put(id, fetchDatas)
-            return fetchDatas
-        })()
-    )
-}
+const fresh = async (id: string, tml?: number) =>
+    task(`user/formerName/${id}`, async () => {
+        const fetchDatas = await userFormerName(id, tml)
+        if (fetchDatas && fetchDatas.length !== 0) await db.put(id, fetchDatas)
+        return fetchDatas
+    })
 
 export default async function (id: string) {
-    const dbDatas = await db.get(id)
-    if (!dbDatas || dbDatas.length === 0) {
-        fresh(id)
-    } else {
-        const { tml, update } = dbDatas[0]
-        if (Date.now() - update.getTime() > 86400000) fresh(id, tml)
-    }
-    return dbDatas
+    const data = await db.get(id)
+    if (!data) return { data: null, task: fresh(id) }
+    if (Date.now() - data.update.getTime() > 86400000)
+        return { data, task: fresh(id, data.data[0]?.tml) }
+    return { data, task: null }
 }

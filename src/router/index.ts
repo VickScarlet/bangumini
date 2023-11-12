@@ -34,3 +34,17 @@ export const sse = (ctx: Context) => {
         onclose: (listener: () => void) => stream.on('close', listener),
     }
 }
+export interface SseGeneratorDate {
+    done: boolean
+}
+
+export const asyncGeneratorSse =
+    (generator: AsyncGenerator<SseGeneratorDate>) => (ctx: Context) => {
+        const source = sse(ctx)
+        Promise.resolve(generator).then(async stream => {
+            for await (const data of stream) {
+                if (data.done) source.last(data)
+                else source.write(data)
+            }
+        })
+    }

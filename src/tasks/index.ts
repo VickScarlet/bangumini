@@ -1,45 +1,63 @@
-export type Callback<T = unknown> = (data: T) => void
-const tasks = new Map<string, Set<Callback>>()
+import { EventIterator } from 'event-iterator'
 
-export const hasTask = (id: string) => {
+const tasks = new Map<
+    string,
+    Set<{
+        push: <T>(value: T) => void
+        stop: () => void
+    }>
+>()
+export type NextableFn<T> = () => Promise<{
+    data: T
+    next: NextableFn<T> | null
+}>
+export async function* asyncGenerator<T>(fn: NextableFn<T>) {
+    while (true) {
+        const { data, next } = await fn()
+        yield data
+        if (!next) return
+        fn = next
+    }
+}
+
+export function has(id: string) {
     return tasks.has(id)
 }
 
-export const task = async <T>(id: string, task: () => Promise<T>) => {
-    const callbacks = tasks.get(id)
-    if (callbacks)
-        return new Promise<T>(resolve => callbacks.add(resolve as Callback))
-
-    tasks.set(id, new Set<Callback>())
-    return task().then(data => {
-        const callbacks = tasks.get(id)
-        if (callbacks) {
-            for (const callback of callbacks)
-                try {
-                    callback(data)
-                } catch (err) {
-                    console.error(err)
-                }
-            tasks.delete(id)
+export default function task(id: string) {
+    const tid = (subId: string) => `${id}#${subId}`
+    const has = (id: string) => tasks.has(tid(id))
+    const task = <T>(id: string, fn: NextableFn<T>) => {
+        id = tid(id)
+        let streams = tasks.get(id)
+        let first = !streams
+        if (first) {
+            streams = new Set()
+            tasks.set(id, streams)
         }
-        return data
-    })
-}
+        const iter = new EventIterator<T>(({ push, stop }) => {
+            streams!.add({
+                push: push as <T>(value: T) => void,
+                stop,
+            })
+        })
+        if (first) {
+            Promise.resolve(asyncGenerator(fn)).then(async (generator) => {
+                for await (const data of generator) {
+                    for (const stream of streams!) {
+                        stream.push(data)
+                    }
+                }
 
-export const removeCallback = (id: string, callback: Callback) => {
-    const callbacks = tasks.get(id)
-    if (!callbacks) return
-    callbacks.delete(callback)
-    if (callbacks.size === 0) tasks.delete(id)
-}
+                for (const stream of streams!) {
+                    stream.stop()
+                }
+                tasks.delete(id)
+            })
+        }
 
-export const clearTask = (id: string) => {
-    const callbacks = tasks.get(id)
-    if (!callbacks) return
-    callbacks.clear()
-    tasks.delete(id)
-}
-
-export const clearAllTask = () => {
-    tasks.clear()
+        return iter
+    }
+    task.has = has
+    return task
 }

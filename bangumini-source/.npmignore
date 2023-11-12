@@ -1,0 +1,6 @@
+node_modules
+src
+.gitignore
+pnpm-lock.yaml
+tsconfig.json
+vite.config.ts

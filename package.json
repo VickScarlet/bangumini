@@ -6,7 +6,8 @@
   "scripts": {
     "build:step1": "ts-node tools/build --project tsconfig.json",
     "build:step2": "napi build --platform --release --cargo-cwd src/api/bangumi src/api/bangumi",
-    "build": "pnpm build:step1 && pnpm build:step2",
+    "build": "npm run build:step1 && npm run build:step2",
+    "build:userscripts": "cd extra/bangumini-userscripts && npm run build",
     "start": "ts-node src --project tsconfig.json",
     "tests": "mocha --require ts-node/register test/**/*.ts",
     "test": "mocha --require ts-node/register",

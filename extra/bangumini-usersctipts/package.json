@@ -4,6 +4,7 @@
     "description": "bangumini↗↗",
     "main": "src/main.ts",
     "scripts": {
+        "dev": "vite dev",
         "build": "vite build"
     },
     "keywords": [
@@ -16,6 +17,8 @@
     "devDependencies": {
         "@types/echarts": "^4.9.21",
         "@types/jquery": "^3.5.27",
+        "@types/react": "^18.2.37",
+        "@types/react-dom": "^18.2.15",
         "sass": "^1.69.5",
         "typescript": "^5.2.2",
         "vite": "^4.5.0",
@@ -23,6 +26,9 @@
     },
     "dependencies": {
         "bangumini-source": "^1.0.1",
-        "path-to-regexp": "^6.2.1"
+        "echarts-for-react": "^3.0.2",
+        "path-to-regexp": "^6.2.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
     }
 }

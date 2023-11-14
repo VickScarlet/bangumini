@@ -1,4 +1,3 @@
-import '@/style/main.scss'
 import initDb from '@/database'
 import router from '@/router'
 

@@ -10,22 +10,33 @@ export default defineConfig({
             '@': '/src',
         },
     },
+    server: {
+        open: '/dist/bangumini.es.user.js',
+    },
     build: {
         lib: {
             entry: ['src/index.ts'],
-            name: 'umd',
+            name: 'bangumini',
             fileName: (format) => `bangumini.${format}.user.js`,
             formats: ['es', 'umd', 'iife'],
         },
-        // sourcemap: false,
+        sourcemap: true,
         rollupOptions: {
+            // external: ['react', 'react-dom', 'echarts'],
+            // output: {
+            //     globals: {
+            //         react: 'React',
+            //         'react-dom': 'ReactDOM',
+            //         echarts: 'echarts',
+            //     },
+            // },
             plugins: [
                 cssInjectedByJsPlugin(),
                 userscript({
                     name: '番组迷你',
                     namespace: 'https://b38.dev',
                     match: ['*://bgm.tv/*', '*://bangumi.tv/*', '*://chii.in/*'],
-                    require: ['https://unpkg.com/echarts'],
+                    // require: ['https://unpkg.com/echarts'],
                 }),
             ],
         },

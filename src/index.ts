@@ -6,6 +6,10 @@ import router from '@/router'
 import db from '@/database'
 
 interface Config {
+    service: {
+        port: number
+        host: string
+    }
     database: import('@/database').Config
 }
 
@@ -16,8 +20,8 @@ async function main(cPath: string) {
     new Koa()
         .use(cors())
         .use(router.routes())
-        .listen({ host: '0.0.0.0', port: 3000 }, () => {
-            console.log('Server listening on port 3000')
+        .listen(config.service, () => {
+            console.info('server started')
         })
 }
 main('config.yaml')

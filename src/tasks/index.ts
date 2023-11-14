@@ -36,25 +36,17 @@ export default function task(id: string) {
             tasks.set(id, streams)
         }
         const iter = new EventIterator<T>(({ push, stop }) => {
-            streams!.add({
-                push: push as <T>(value: T) => void,
-                stop,
-            })
+            streams!.add({ push: push as <T>(value: T) => void, stop })
         })
-        if (first) {
+        if (first)
             Promise.resolve(asyncGenerator(fn)).then(async (generator) => {
-                for await (const data of generator) {
-                    for (const stream of streams!) {
-                        stream.push(data)
-                    }
-                }
+                for await (const data of generator)
+                    for (const stream of streams!) stream.push(data)
 
-                for (const stream of streams!) {
-                    stream.stop()
-                }
+                for (const stream of streams!) stream.stop()
+
                 tasks.delete(id)
             })
-        }
 
         return iter
     }

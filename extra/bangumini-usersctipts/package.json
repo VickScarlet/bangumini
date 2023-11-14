@@ -1,6 +1,6 @@
 {
     "name": "bangumini-userscript",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "bangumini↗↗",
     "main": "src/main.ts",
     "scripts": {
@@ -13,22 +13,16 @@
     ],
     "author": "Vick Scarlet(vick@syaro.io)",
     "license": "MIT",
-    "tampermonkey": {
-        "name": "番组迷你",
-        "namespace": "https://b38.dev",
-        "match": [
-            "*://bgm.tv*",
-            "*://bangumi.tv*",
-            "*://chii.in*"
-        ]
-    },
     "devDependencies": {
+        "@types/echarts": "^4.9.21",
         "@types/jquery": "^3.5.27",
+        "sass": "^1.69.5",
         "typescript": "^5.2.2",
         "vite": "^4.5.0",
-        "vite-plugin-tampermonkey": "^1.1.2"
+        "vite-plugin-css-injected-by-js": "^3.3.0"
     },
     "dependencies": {
-        "bangumini-source": "^1.0.1"
+        "bangumini-source": "^1.0.1",
+        "path-to-regexp": "^6.2.1"
     }
 }

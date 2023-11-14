@@ -9,7 +9,7 @@ interface EventSourceData {
     status: string        // 状态 [new, done, not-found, db-cache, step-{N}]
     done: boolean         // 是否更新完成
     update: string        // 更新时间 [UTC]
-    data: unknown         // 数据 [类型根据接口数据而定]
+    data?: unknown        // 数据 [类型根据接口数据而定]
 }
 ```
 

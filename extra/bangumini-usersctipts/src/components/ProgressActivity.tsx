@@ -1,5 +1,5 @@
-import './ProgressActivity.scss'
-import React, { useEffect, useState } from 'react'
+import {progress_activity, button, canvas} from './ProgressActivity.module.scss'
+import React from 'react'
 import ECharts from 'echarts-for-react';
 import { getProgressActivity } from '@/api/user'
 
@@ -54,11 +54,11 @@ export default class ProgressActivity extends React.Component<ProgressActivityPr
     render() {
         if (!this.state.show)
             return (
-                <div className="bangumini progress_activity">
+                <div className={progress_activity}>
                     <h3>格子活跃</h3>
-                    <div className="bangumini button chiiBtn"
-                        onClick={()=>this.onClick()}
-                    >让我看看</div>
+                    <div className={button} onClick={this.onClick} onKeyDown={this.onClick}>
+                        让我看看
+                    </div>
                 </div>
             )
 
@@ -66,7 +66,7 @@ export default class ProgressActivity extends React.Component<ProgressActivityPr
             tooltip: { trigger: 'axis' },
             xAxis: { type: 'category', data: this.state.date },
             yAxis: { type: 'value' },
-            toolbox: { feature: { restore: {}, saveAsImage: {} } },
+            toolbox: { feature: { saveAsImage: {} } },
             dataZoom: [
                 { type: 'inside', start: 0, end: 100 },
                 { start: 0, end: 10 },
@@ -77,9 +77,9 @@ export default class ProgressActivity extends React.Component<ProgressActivityPr
             ],
         }
 
-        return (<div className="bangumini progress_activity">
+        return (<div className={progress_activity}>
             <h3>格子活跃</h3>
-            <ECharts option={option} />
+            <ECharts className={canvas} option={option} />
         </div>)
     }
 }

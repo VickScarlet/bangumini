@@ -12,6 +12,12 @@
     "esModuleInterop": true,
     "strict": true,
     "skipLibCheck": true,
-    "removeComments": false
+    "removeComments": false,
+    "plugins": [{
+      "name": "typescript-plugin-css-modules",
+      "options": {
+        "customMatcher": "\\.module\\.(c|sc|sa|le)ss$"
+      }
+    }]
   },
 }

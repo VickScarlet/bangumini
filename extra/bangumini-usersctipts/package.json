@@ -21,6 +21,7 @@
         "@types/react-dom": "^18.2.15",
         "sass": "^1.69.5",
         "typescript": "^5.2.2",
+        "typescript-plugin-css-modules": "^5.0.2",
         "vite": "^4.5.0",
         "vite-plugin-css-injected-by-js": "^3.3.0"
     },

@@ -1,4 +1,4 @@
-import { Rollup } from 'vite'
+import { type Rollup } from 'vite'
 import { readFile } from 'fs/promises'
 
 export interface Options {
